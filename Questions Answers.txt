@@ -2,7 +2,7 @@
 
 Q1: The paper explains a possible way to avoid numerical issues in an implementation. Can you describe other possible numerical instabilities you might encounter along with a solution?
 
-In addition to the potential precision issues related to not scaling (fixed by subtracting the max in softmax for numerical stability), there is also the risk of encountering overflow or underflow during computations like exponentiation. To mitigate these issues, we may need to use higher precision arithmetic , though this can increase latency during inference.
+In addition to the potential precision issues related to not scaling (fixed by subtracting the m_k for numerical stability), there is also the risk of encountering overflow or underflow during computations like exponentiation. To mitigate these issues, we may need to use higher precision arithmetic , though this can increase latency during inference.
 Another common numerical issue arises during the training phase, where vanishing or exploding gradients can occur in deep learning models, particularly in RNNs. Vanishing gradients make it difficult to update weights effectively, while exploding gradients can destabilize training. These issues can be addressed using techniques like gradient clipping for exploding gradients or employing specialized architectures such as GRUs or LSTMs, which are designed to better handle long-term dependencies in RNNs.
 
 ---
