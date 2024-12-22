@@ -1,0 +1,19 @@
+# Q/A:
+
+Q1: The paper explains a possible way to avoid numerical issues in an implementation. Can you describe other possible numerical instabilities you might encounter along with a solution?
+
+In addition to the potential precision issues related to scaling (e.g., subtracting the max in softmax for numerical stability), there is also the risk of encountering overflow or underflow during computations like exponentiation. To mitigate these issues, we may need to use higher precision arithmetic (e.g., double precision), though this can increase latency during inference.
+Another common numerical issue arises during the training phase, where vanishing or exploding gradients can occur in deep learning models, particularly in RNNs. Vanishing gradients make it difficult to update weights effectively, while exploding gradients can destabilize training. These issues can be addressed using techniques like gradient clipping for exploding gradients or employing specialized architectures such as GRUs or LSTMs, which are designed to better handle long-term dependencies in RNNs.
+
+---
+
+Q2: Can you describe the advantages and disadvantages of the standard vs. RNN implementation of self-attention? Which one would be more suitable for a memory-constrained embedded system?
+
+A2: RNNs are inherently sequential, which makes them prone to vanishing or exploding gradients and can lead to slower processing, especially in long sequences. In contrast, self-attention mechanisms compute dependencies between all tokens in parallel, enabling more efficient processing, especially for long-range dependencies. While RNNs with self-attention can be useful, they still process data sequentially, which limits their parallelism. On the other hand, self-attention mechanisms (such as those used in transformers) require constant memory and can be parallelized, making them more suitable for memory-constrained embedded systems, where efficient memory usage and processing speed are crucial.
+
+---
+
+Q3: Given the Attention’s RNN Cell of Fig. 2, how can you use the cell to implement self-attention?
+
+A3: The Attention RNN Cell computes a score using the query and key vectors at each step, iteratively updating the memory states (a_k, c_k, and m_k). To implement self-attention using this cell, we compute the attention scores for each token in the sequence by applying the same approach iteratively to the query and key vectors. Unlike the traditional self-attention in transformers, where the entire sequence is processed in parallel, the RNN-based attention processes the sequence step-by-step, using previous memory states to efficiently update the query with new tokens while minimizing memory usage. The iterative a_k, c_k, and m_k terms are crucial for this memory-efficient approach, especially when predicting new tokens in the sequence.
+
